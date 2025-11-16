@@ -1,0 +1,18 @@
+[project]
+name = "icat"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "strangehoney",email = "vadim.k.2004@yandex.ru"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "aiogram (>=3.22.0,<4.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
