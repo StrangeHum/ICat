@@ -32,6 +32,7 @@ def create_bot_and_dp() -> tuple[Bot, Dispatcher]:
 
 # Удобная обёртка для отправки сообщения — используется сервером
 async def send_message_to_user(chat_id: int | str, text: str, parse_mode: str | None = None, **kwargs):
+    print("tryin send mess to user")
     if bot is None:
         raise RuntimeError("Bot not initialized")
     return await bot.send_message(chat_id=chat_id, text=text, **kwargs)

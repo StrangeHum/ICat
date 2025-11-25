@@ -7,6 +7,7 @@ from app.config import load_config
 
 config = load_config()
 
+print(__file__)
 
 async def _run_uvicorn():
     # uvicorn.Server может работать асинхронно
