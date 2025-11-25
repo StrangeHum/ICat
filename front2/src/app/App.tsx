@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { LightModernDashboard } from "@/components/LightModernDashboard";
 import { DarkProDashboard } from "@/components/DarkProDashboard";
@@ -41,6 +43,7 @@ export default function App() {
       {activeDesign === "light" && <LightModernDashboard />}
       {activeDesign === "dark" && <DarkProDashboard />}
       {activeDesign === "ai" && <AIAssistiveDashboard />}
+      {activeDesign === "test" && <TestGlobals />}
     </div>
   );
 }
