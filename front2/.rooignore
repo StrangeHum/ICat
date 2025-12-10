@@ -1,0 +1,59 @@
+# Node.js dependency folders
+node_modules
+.pnpm
+.yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/install-state.gz
+
+# Build output
+.next
+out
+dist
+build
+
+# Temp caches
+.cache
+.next/cache
+.vercel
+coverage
+tmp
+temp
+
+# Environment & configs
+.env
+.env.*
+.vscode
+.idea
+
+# Logs
+logs
+log
+
+
+
+# Environment variables
+*.env
+*.env.*
+.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build artifacts
+*.min.js
+*.map
+*.log
+*.log.*
+*.tmp
+
+# Lock files (не нужны для анализа кода)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Binary / bundled artifacts
+*.bin
+*.wasm

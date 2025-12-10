@@ -16,6 +16,7 @@ class Config:
     webhook_url: str | None
     backend_url: str | None # куда бот отправляет сообщения (служба обработки)
     internal_api_key: str | None # API ключ для внутреннего endpoint-а (backend -> bot)
+    ai_service_url: str | None # URL микросервиса нейросети
 
 
 def load_config() -> Config:
@@ -24,5 +25,6 @@ def load_config() -> Config:
         use_webhook=data("USE_WEBHOOK", "false").lower() == "true",
         webhook_url=data("WEBHOOK_URL"),
         backend_url=data("BACKEND_URL"),
-        internal_api_key=data("INTERNAL_API_KEY")
+        internal_api_key=data("INTERNAL_API_KEY"),
+        ai_service_url=data("AI_SERVICE_URL")
     )

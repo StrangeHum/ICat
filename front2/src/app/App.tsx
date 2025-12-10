@@ -4,13 +4,12 @@ import { useState } from "react";
 import { LightModernDashboard } from "@/components/LightModernDashboard";
 import { DarkProDashboard } from "@/components/DarkProDashboard";
 import { AIAssistiveDashboard } from "@/components/AIAssistiveDashboard";
-import TestGlobals from "@/components/TestGlobals";
 import { Button } from "@/components/ui/button";
 
 export default function App() {
-  const [activeDesign, setActiveDesign] = useState<"light" | "dark" | "ai" | "test">(
-    "test"
-  );
+  const [activeDesign, setActiveDesign] = useState<
+    "light" | "dark" | "ai" | "test"
+  >("test");
 
   return (
     <div className="min-h-screen">
@@ -43,7 +42,6 @@ export default function App() {
       {activeDesign === "light" && <LightModernDashboard />}
       {activeDesign === "dark" && <DarkProDashboard />}
       {activeDesign === "ai" && <AIAssistiveDashboard />}
-      {activeDesign === "test" && <TestGlobals />}
     </div>
   );
 }

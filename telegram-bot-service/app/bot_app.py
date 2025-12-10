@@ -4,6 +4,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.enums import ParseMode
 from app.config import load_config
 from app.handlers.start import router as start_router
+from app.handlers.test_model import router as test_model_router
 
 
 config = load_config()
@@ -25,6 +26,7 @@ def create_bot_and_dp() -> tuple[Bot, Dispatcher]:
 
     # подключаем роутеры
     dp.include_router(start_router)
+    dp.include_router(test_model_router)
 
 
     return bot, dp
