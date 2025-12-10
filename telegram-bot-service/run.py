@@ -1,7 +1,7 @@
 import asyncio
 from app.bot_app import create_bot_and_dp
 from app.config import load_config
-from app.server import fastapi_app
+from app.server import app as fastapi_app
 import uvicorn
 
 config = load_config()

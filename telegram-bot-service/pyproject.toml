@@ -1,5 +1,5 @@
 [project]
-name = "icat"
+name = "telegram-bot-service"
 version = "0.1.0"
 description = ""
 authors = [
@@ -14,7 +14,8 @@ dependencies = [
     "watchfiles (>=1.1.1,<2.0.0)",
     "uvicorn (>=0.38.0,<0.39.0)",
     "fastapi (>=0.121.2,<0.122.0)",
-    "httpx (>=0.28.1,<0.29.0)"
+    "httpx (>=0.28.1,<0.29.0)",
+    "loguru (>=0.7.2,<0.8.0)"
 ]
 
 

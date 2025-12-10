@@ -1,4 +1,5 @@
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, Router
+from app.middlewares.logging import LoggingMiddleware
 from aiogram.client.default import DefaultBotProperties
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.enums import ParseMode
@@ -22,6 +23,11 @@ def create_bot_and_dp() -> tuple[Bot, Dispatcher]:
     default = DefaultBotProperties(parse_mode=ParseMode.HTML)
     bot = Bot(token=config.bot_token, default=default)
     dp = Dispatcher(storage=MemoryStorage())
+    # Регистрируем middleware через роутер
+    router = Router()
+    router.message.middleware(LoggingMiddleware())
+    router.callback_query.middleware(LoggingMiddleware())
+    dp.include_router(router)
 
 
     # подключаем роутеры
