@@ -31,7 +31,7 @@ def create_bot_and_dp() -> tuple[Bot, Dispatcher]:
 
 
     # подключаем роутеры
-    dp.include_router(start_router)
+    # dp.include_router(start_router)
     dp.include_router(test_model_router)
 
 

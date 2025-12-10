@@ -23,9 +23,12 @@ async def handle_message(message: types.Message):
     prompt = "\n".join([f"{msg['role']}: {msg['content']}" for msg in session_messages])
     
     # Отправляем в ai-service
-    response = await generate_ai_response(prompt)
+    # Передаем context=None, так как вся история уже в промпте
+    print(prompt)
+    response = await generate_ai_response(prompt, context=None)
+
     if response is None:
-        await message.answer("Ошибка генерации ответа")
+        await message.answer(f"Ошибка генерации ответа {prompt}")
         return
     
     # Добавляем ответ ассистента в сессию

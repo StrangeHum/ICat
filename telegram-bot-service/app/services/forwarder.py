@@ -20,16 +20,21 @@ async def forward_to_backend(payload: dict):
             print(f"[forwarder] Ошибка при отправке на backend: {e}")
             return None
 
-async def generate_ai_response(prompt: str) -> str | None:
+async def generate_ai_response(prompt: str, context: list[str] | None = None) -> str | None:
     """Отправляет запрос в ai-service и возвращает сгенерированный ответ."""
     if not config.ai_service_url:
         print("[ai] AI_SERVICE_URL не задан, пропускаем генерацию")
         return None
     try:
         async with httpx.AsyncClient(timeout=30.0) as client:
+            # Формируем запрос согласно ожиданиям AI-сервиса
+            request_data = {
+                "prompt": prompt,
+                "context": context  # может быть None
+            }
             resp = await client.post(
                 config.ai_service_url.rstrip("/") + "/generate",
-                json={"prompt": prompt},
+                json=request_data,
                 timeout=30.0
             )
             resp.raise_for_status()
