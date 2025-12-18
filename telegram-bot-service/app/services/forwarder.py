@@ -9,7 +9,7 @@ async def forward_to_backend(payload: dict):
     """Отправляет данные о новом сообщении на BACKEND_URL (если указан)."""
     if not config.backend_url:
         # Если бекенд не настроен — логируем и выходим
-        print(f"[forwarder] BACKEND_URL не задан (текущее значение: {config.backend_url}), пропускаем отправку")
+        print("[forwarder] BACKEND_URL не задан, пропускаем отправку")
         return None
     async with httpx.AsyncClient(timeout=10.0) as client:
         try:
@@ -23,7 +23,7 @@ async def forward_to_backend(payload: dict):
 async def generate_ai_response(prompt: str, context: list[str] | None = None) -> str | None:
     """Отправляет запрос в ai-service и возвращает сгенерированный ответ."""
     if not config.ai_service_url:
-        print(f"[ai] AI_SERVICE_URL не задан (текущее значение: {config.ai_service_url}), пропускаем генерацию")
+        print("[ai] AI_SERVICE_URL не задан, пропускаем генерацию")
         return None
     try:
         async with httpx.AsyncClient(timeout=30.0) as client:
