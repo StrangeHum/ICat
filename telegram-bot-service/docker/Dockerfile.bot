@@ -13,8 +13,7 @@ RUN apt-get update && \
 COPY pyproject.toml ./
 
 # Устанавливаем зависимости (без разработческих)
-RUN poetry config virtualenvs.create false && \
-    poetry install --no-root
+RUN poetry config virtualenvs.create false && poetry install --no-root
 
 # Копируем исходный код
 COPY . .
