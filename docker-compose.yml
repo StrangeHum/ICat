@@ -17,6 +17,12 @@ services:
       - logs:/app/logs
     depends_on:
       - ai-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://bot.prohony.api/health"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
 
   ai-service:
     build:
@@ -27,6 +33,12 @@ services:
       - "8001:8001"
     volumes:
       - logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://api.prohony.api/health"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
 
 volumes:
   logs:
