@@ -23,7 +23,7 @@ router.message.middleware(LoggingMiddleware())
 router.callback_query.middleware(LoggingMiddleware())
 
 dp.include_router(router)
-dp.include_router(start_router)
+dp.include_router(test_model_router)
 
 
 # Удобная обёртка для отправки сообщения — используется сервером

@@ -13,9 +13,36 @@ client = OpenAI(
   api_key=A4F_API_KEY,
 )
 
+altclient = OpenAI(
+  base_url="https://api.a4f.co/v1",
+  api_key="ddc-a4f-f6aeabc1f32a4bbca062831c368f7a94",
+)
+
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}
+
+@app.post("/gpt")
+async def generate_response(request: GenerationRequest):
+    try:
+        response = altclient.chat.completions.create(
+            model= "provider-2/gemini-2.5-flash",
+            messages=[
+                {
+                "role": "user",
+                "content": request.prompt,
+                },
+            ],
+        )
+        return GenerationResponse(response=response.choices[0].message.content)
+
+    except httpx.ReadTimeout:
+        return GenerationResponse(response="Ошибка: превышено время ожидания ответа")
+    except httpx.HTTPStatusError as e:
+        return GenerationResponse(response=f"Ошибка API: {e.response.status_code}")
+    except Exception as e:
+        return GenerationResponse(response=f"Неизвестная ошибка: {str(e)}")
+
 
 @app.post("/generate")
 async def generate_response(request: GenerationRequest):

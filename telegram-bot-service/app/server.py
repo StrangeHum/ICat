@@ -1,3 +1,4 @@
+import httpx
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Depends, Header, Request
 from pydantic import BaseModel
@@ -41,6 +42,14 @@ class MessageFromBot(BaseModel):
     message_id: int
     chat_id: int
 
+class MessageGenFromBot(BaseModel):
+    prompt: str
+    from_id: int
+    username: str
+    text: str
+    message_id: int
+    chat_id: int
+
 @app.post("/api/v1/incoming_message")
 async def incoming_message(message: MessageFromBot):
     # тут ты кладёшь задачу в БД
@@ -51,6 +60,32 @@ async def incoming_message(message: MessageFromBot):
         return {"ok": True, "message_id": res.message_id}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/v1/gpt")
+async def gptGen(body: MessageGenFromBot):
+    """Отправляет запрос в ai-service и возвращает сгенерированный ответ."""
+    if not config.ai_service_url:
+        print(f"[ai] AI_SERVICE_URL не задан (текущее значение: {config.ai_service_url}), пропускаем генерацию")
+        return None
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            # Формируем запрос согласно ожиданиям AI-сервиса
+            request_data = {
+                "prompt": body.prompt,
+            }
+            print(config.ai_service_url)
+            resp = await client.post(
+                config.ai_service_url.rstrip("/") + "/gpt",
+                json=request_data,
+                timeout=3000.0
+            )
+            
+            resp.raise_for_status()
+            data = resp.json()
+            await send_message_to_user(body.chat_id, data.get("response"))
+    except Exception as e:
+        print(f"[ai] Ошибка при генерации ответа: {e}")
+        return None
 
 
 @app.post("/internal/send_message")
