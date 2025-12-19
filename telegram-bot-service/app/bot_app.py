@@ -11,31 +11,19 @@ from app.handlers.test_model import router as test_model_router
 config = load_config()
 
 
-# глобальные объекты, которые могут использоваться сервером для отправки сообщений
-bot: Bot | None = None
-dp: Dispatcher | None = None
 
+default = DefaultBotProperties(parse_mode=ParseMode.HTML)
 
+bot = Bot(token=config.bot_token, default=default)
+dp = Dispatcher(storage=MemoryStorage())
 
+# Регистрируем middleware через роутер
+router = Router()
+router.message.middleware(LoggingMiddleware())
+router.callback_query.middleware(LoggingMiddleware())
 
-def create_bot_and_dp() -> tuple[Bot, Dispatcher]:
-    global bot, dp
-    default = DefaultBotProperties(parse_mode=ParseMode.HTML)
-    bot = Bot(token=config.bot_token, default=default)
-    dp = Dispatcher(storage=MemoryStorage())
-    # Регистрируем middleware через роутер
-    router = Router()
-    router.message.middleware(LoggingMiddleware())
-    router.callback_query.middleware(LoggingMiddleware())
-    dp.include_router(router)
-
-
-    # подключаем роутеры
-    # dp.include_router(start_router)
-    dp.include_router(test_model_router)
-
-
-    return bot, dp
+dp.include_router(router)
+dp.include_router(start_router)
 
 
 # Удобная обёртка для отправки сообщения — используется сервером

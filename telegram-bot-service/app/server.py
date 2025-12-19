@@ -1,26 +1,37 @@
-from fastapi import FastAPI, HTTPException, Depends
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, HTTPException, Depends, Header, Request
 from pydantic import BaseModel
 from app.config import load_config
-from app.bot_app import send_message_to_user, bot
-
+from app.bot_app import send_message_to_user, bot, dp
 
 config = load_config()
-app = FastAPI(title="Internal Bot Gateway")
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    if config.use_webhook:
+        await bot.set_webhook(
+            url=config.webhook_url,
+            allowed_updates=dp.resolve_used_update_types(),
+            drop_pending_updates=True,
+        )
+    yield
+    if config.use_webhook:
+        await bot.delete_webhook()
+        await bot.session.close()
+
+
+app = FastAPI(title="Internal Bot Gateway", lifespan=lifespan)
 
 class SendMessageIn(BaseModel):
     chat_id: int
     text: str
 
-
-
-
 # простой dependency для проверки API key
-def require_api_key(x_api_key: str | None = None):
+def require_api_key(x_api_key: str | None = Header(default=None)):
     if not config.internal_api_key:
-        raise HTTPException(status_code=500, detail="Internal API key not configured")
+        raise HTTPException(status_code=500, detail="[HONYWORK] Internal API key not configured")
     if x_api_key != config.internal_api_key:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+        raise HTTPException(status_code=401, detail="[HONYWORK] Unauthorized")
     return True
 
 class MessageFromBot(BaseModel):
@@ -66,3 +77,8 @@ async def internal_send_message(body: SendMessageIn, authorized: bool = Depends(
 async def health():
     return {"ok": True}
 
+@app.post("/webhook")
+async def telegram_webhook(request: Request):
+    update = await request.json()
+    await dp.feed_raw_update(bot, update)
+    return {"ok": True}
