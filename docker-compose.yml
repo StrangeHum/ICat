@@ -15,6 +15,7 @@ services:
       - "8000:8000"
     volumes:
       - logs:/app/logs
+      - ./telegram-bot-service:/app
     depends_on:
       - ai-service
     restart: unless-stopped
@@ -33,6 +34,7 @@ services:
     ports:
       - "8001:8001"
     volumes:
+      - ./ai-service:/app
       - logs:/app/logs
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
@@ -44,3 +46,4 @@ services:
 
 volumes:
   logs:
+  
