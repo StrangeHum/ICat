@@ -6,7 +6,7 @@ from aiogram.enums import ParseMode
 from app.config import load_config
 from app.handlers.start import router as start_router
 from app.handlers.test_model import router as test_model_router
-
+from app.handlers.add_task import router as add_task_router
 
 config = load_config()
 
@@ -22,9 +22,9 @@ router = Router()
 router.message.middleware(LoggingMiddleware())
 router.callback_query.middleware(LoggingMiddleware())
 
-dp.include_router(router)
-dp.include_router(test_model_router)
-
+# dp.include_router(router)
+# dp.include_router(test_model_router)
+dp.include_router(add_task_router)
 
 # Удобная обёртка для отправки сообщения — используется сервером
 async def send_message_to_user(chat_id: int | str, text: str, parse_mode: str | None = None, **kwargs):
