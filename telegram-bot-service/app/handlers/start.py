@@ -2,6 +2,7 @@ from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
 from app.keyboards.main_menu import main_menu
+from app.keyboards.add_task_menu import add_task_menu
 from app.services.forwarder import forward_to_backend
 
 
