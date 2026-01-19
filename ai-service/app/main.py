@@ -13,7 +13,7 @@ from app.utils.logger import setup_logger, log_text, log_json, log_prompt_used
 A4F_API_KEY = os.getenv("A4F_API_KEY")
 A4F_AI_MODEL = "provider-2/gpt-oss-120b"
 
-system_prompt_name = "system:1"
+system_prompt_name = "system_1"
 system_prompt = get_prompt(system_prompt_name)
 
 logger = setup_logger()
