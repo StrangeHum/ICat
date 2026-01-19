@@ -75,7 +75,7 @@ async def gptGen(body: MessageGenFromBot):
             }
             print(config.ai_service_url)
             resp = await client.post(
-                config.ai_service_url.rstrip("/") + "/gpt",
+                config.ai_service_url.rstrip("/") + "/generate",
                 json=request_data,
                 timeout=3000.0
             )
