@@ -22,7 +22,7 @@ router = Router()
 router.message.middleware(LoggingMiddleware())
 router.callback_query.middleware(LoggingMiddleware())
 
-# dp.include_router(router)
+dp.include_router(router)
 # dp.include_router(test_model_router)
 dp.include_router(add_task_router)
 

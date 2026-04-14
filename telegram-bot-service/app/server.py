@@ -10,6 +10,7 @@ config = load_config()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     if config.use_webhook:
+        print("Webhook has been ON")
         await bot.set_webhook(
             url=config.webhook_url,
             allowed_updates=dp.resolve_used_update_types(),
